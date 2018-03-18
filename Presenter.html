@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Presenter</title>
+    <style>
+        body{
+            background-color: black;
+            margin: 0;
+        }
+        
+        canvas{
+            background-image: url("images/background.png");
+            background-size: cover;
+        }
+
+    </style>
+    <script>
+        //Global variables
+        //animation variables
+        var animation, video;
+        //Universal functions
+		//Degree trig functions
+        function sin(angle){return Math.sin((angle * Math.PI)/180);}
+        function cos(angle) {return Math.cos((angle * Math.PI)/180);}
+        
+        //Math functions
+        function getRandomNumber(lowerBound, upperBound){return (Math.floor(Math.random() * upperBound) + lowerBound);}
+		
+		//Canvas centering functions
+        function centerX(width) {return DRAW_WIDTH/2 - (width/2);}
+        function centerY(height) {return DRAW_HEIGHT/2 - (height/2);}
+        
+        //Centering range functions
+        function centerXrange(width, range){return range/2 - (width/2);}
+        function centerYrange(height, range){return range/2 - (height/2);}
+		
+		//Animation timer function
+		function FPS(frames) {return 1000/frames;}
+		
+        //image and video retrieval functions
+        function getImage(src) {
+            var selectedImage = new Image();
+            selectedImage.src = src;
+            return selectedImage;
+        }
+        
+        function getVideo(src) {
+            var selectedClip = document.createElement("video");
+            selectedClip.src = src;
+            selectedClip.autoplay = true;
+            return selectedClip;
+        }
+        
+        function playVideo(src) {
+            var clip = getVideo(src);
+            video = setInterval(function () {
+                ctx.drawImage(clip, 0, 0, DRAW_WIDTH, DRAW_HEIGHT);
+            },FPS(24));
+        }
+        
+        //Returns the max font size given a target width
+        function getMaxFontSize(text, targetWidth) {
+            var fontSize = 10;
+            var width = 0;
+            while (width <= targetWidth){
+                fontSize += 2;
+                ctx.font = fontSize + "px Arial";
+                width = ctx.measureText(text).width;
+            }
+            return fontSize;
+        }
+        
+        //Global Variables
+        var canvas, ctx, DRAW_WIDTH, DRAW_HEIGHT;
+        var angle = 0;
+        var blueLogo = getImage("images/logos/RAM Blue.png");
+        var greenLogo = getImage("images/logos/RAM Green.png");
+
+        //Roster information for the varsity team
+        var laura = {
+            pic: getImage("images/profile pics/Laura.jpg"),
+            profile: "videos/intro clips/Laura Profile.mp4",
+            number: "#1",
+            name: "Laura Gutierrez",
+            height: "5'5''",
+            position:"Guard",
+            year: "Junior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var michaela = {
+            pic: getImage("images/profile pics/Michaela.jpg"),
+			profile: "videos/intro clips/Michaela.mp4",
+            number: "#10",
+            name: "Michaela Meyer",
+            height: "5'5''",
+            position: "S. Guard",
+            year: "Sophmore",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var julia = {
+            pic: getImage("images/profile pics/Julia.jpg"),
+			profile: "videos/intro clips/Julia.mp4",
+            number: "#11",
+            name: "Julia Chavez",
+            height: "5'6''",
+            position:"P. Guard",
+            year: "Junior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var maddy = {
+            pic: getImage("images/profile pics/Maddy.jpg"),
+            profile: "videos/intro clips/Maddy Profile.mp4",
+            number: "#12",
+            name: "Maddy Mares",
+            height: "5'7''",
+            position:"Guard",
+            year: "Junior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var abree = {
+            pic: getImage("images/profile pics/Abree.jpg"),
+            number: "#13",
+            name: "Abree Aldaz",
+            height: "5'8''",
+            position: "Forward",
+            year: "Junior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var camryn = {
+            pic: getImage("images/profile pics/Camryn.jpg"),
+            profile: "videos/intro clips/Camryn profile.mp4",
+            number: "#23",
+            name: "Camryn Hawkins",
+            height: "5'9''",
+            position: "S. Guard",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var emily = {
+            pic: getImage("images/profile pics/Emily.jpg"),
+            number: "#24",
+            name: "Emily Lopez",
+            height: "5'5''",
+            position: "S. Forward",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var morgan = {
+            pic: getImage("images/profile pics/Morgan.jpg"),
+            number: "#30",
+            name: "Morgan Terrazas",
+            height: "5'6''",
+            position: "S. Guard",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var kennedy = {
+            pic: getImage("images/profile pics/Kennedy.jpg"),
+            number: "#31",
+            name: "Kennedy Block",
+            height: "5'10''",
+            position: "Forward",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var mitchell = {
+            pic: getImage("images/profile pics/Mitchell.jpg"),
+            number: "#32",
+            name: "Mitchell Mortenson",
+            height: "6'4''",
+            position: "Center",
+            year: "Junior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var lexi = {
+            pic: getImage("images/profile pics/Lexi.jpg"),
+            profile: "videos/intro clips/Lexi profile.mp4",
+            number: "#33",
+            name: "Lexi Peterson",
+            height: "5'10''",
+            position:"S. Guard",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        var kamirah = {
+            pic: getImage("images/profile pics/Kamirah.jpg"),
+            profile: "videos/intro clips/Kamirah profile.mp4",
+            number: "#35",
+            name: "Kamirah Decker",
+            height: "6'2''",
+            position:"Forward",
+            year: "Senior",
+            twoPoints: 0,
+            threePoints: 0,
+            freethrows: 0,
+            fouls: 0
+        };
+        
+        function rotateLogo(size) {
+            //Start with the blue logo
+            var color = blueLogo;
+            //if the angle is at or above 90 change to green
+            if(angle >= 90){color = greenLogo;}
+            //if the angle is at or above 270 change back to blue
+            if(angle >= 270){color = blueLogo;}
+            //After making a full circle reset the angle to 0
+            if(angle >= 360){angle = 0;}
+            //Get the new width based on the value of cos
+            var newSize = size * cos(angle);
+            //Clear the canvas
+            ctx.clearRect(centerX(size), centerY(size), size, size);
+            //Draw the image with the adjusted with and x position
+            ctx.drawImage(color, centerX(newSize), centerY(size), newSize, size);
+            //Increment the angle
+            angle++;
+        }
+        
+        function welcome(){
+            //Local variables
+            var delay1 = 0;
+            var delay2 = 0;
+            var width;
+            var welcomeX, welcomeY, welcomeH, welcomePX;
+            var athleticX, athleticY, athleticH, athleticPX;
+            var tonightX, tonightY, tonightH, tonightPX;
+            var vsX, vsY, vsWidth, vsHeight, vsPX;
+            var visitorX, visitorImage;
+            var homeX, homeImage;
+            var logoSize, logoY;
+            //Set the max width of the text
+            width = 0.9 * DRAW_WIDTH;
+            racWidth = 0.75 * DRAW_WIDTH;
+            //Find the max font size with the given width
+            //Store font size and height for each line of text
+            welcomePX = getMaxFontSize("Welcome To", width);
+            welcomeH = welcomePX/1.25;
+            welcomeX = -DRAW_WIDTH;
+            welcomeY = welcomeH + 30;
+
+            athleticPX = getMaxFontSize("The RAC", racWidth);
+            athleticH = athleticPX/1.5;
+            athleticX = DRAW_WIDTH;
+            athleticY = DRAW_HEIGHT - 10;
+
+            tonightPX = getMaxFontSize("Tonight's Game", width);
+            tonightH = tonightPX/1.5;
+            tonightX = centerX(width);
+            tonightY = -tonightH - 10;
+
+            vsWidth = 175;
+            vsPX = getMaxFontSize("VS", vsWidth);
+            vsHeight = -vsPX/1.5;
+            vsX = centerX(vsWidth);
+            vsY = centerYrange(vsHeight, (DRAW_HEIGHT - tonightH)) + tonightH;
+
+            logoSize = DRAW_HEIGHT/2;
+            logoY = (DRAW_HEIGHT + tonightH)/2 - logoSize/2;
+
+            visitorX = -logoSize;
+            visitorImage = getImage("images/logos/Panthers.png");
+
+            homeX = DRAW_WIDTH;
+            homeImage = getImage("images/logos/RAM Blue.png");
+
+            animation = setInterval(function () {
+                if(welcomeX < centerX(width)){
+                    rotateLogo(DRAW_HEIGHT - (welcomeH + athleticH + 100));
+                    ctx.font = "italic " + welcomePX + "px Arial";
+                    ctx.clearRect(0,0,DRAW_WIDTH, welcomeH + 35);
+                    ctx.fillText("Welcome To", welcomeX, welcomeY);
+                    welcomeX += 10;
+                }
+                else if(athleticX > centerX(racWidth)){
+                    rotateLogo(DRAW_HEIGHT - (welcomeH + athleticH + 100));
+                    ctx.font = "italic " + athleticPX + "px Arial";
+                    ctx.clearRect(0, DRAW_HEIGHT - (athleticH + 40), DRAW_WIDTH, athleticH + 35);
+                    ctx.fillText("The RAC", athleticX, athleticY);
+                    athleticX -= 10;
+                }
+                else if(delay1 < 240){
+                    rotateLogo(DRAW_HEIGHT - (welcomeH + athleticH + 100));
+                    delay1++;
+                }
+                else if(tonightY < tonightH + 25){
+                    ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                    ctx.font = "italic " + tonightPX + "px Arial";
+                    ctx.clearRect(0,0,DRAW_WIDTH, tonightY);
+                    ctx.fillText("Tonight's Game", tonightX, tonightY);
+                    tonightY += 5;
+                }
+                else if(visitorX < centerX(logoSize) - 75 && homeX > centerX(logoSize) + 425){
+                    ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                    ctx.font = "italic " + tonightPX + "px Arial";
+                    ctx.fillText("Tonight's Game", tonightX, tonightY);
+                    ctx.font = "italic " + vsPX + "px Arial";
+                    ctx.fillText("VS", vsX, vsY);
+                    ctx.drawImage(visitorImage, visitorX, logoY, logoSize, logoSize);
+                    ctx.drawImage(homeImage, homeX, logoY, logoSize, logoSize);
+                    visitorX += 10;
+                    homeX -= 10;
+                }
+                else if(delay2 < 240){
+                    delay2++;
+                }
+                else{
+                    ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                    delay1 = 0;
+                    delay2 = 0;
+                    welcomeX = -DRAW_WIDTH;
+                    welcomeY = welcomeH + 30;
+                    athleticX = DRAW_WIDTH;
+                    athleticY = DRAW_HEIGHT - 10;
+                    tonightX = centerX(width);
+                    tonightY = -tonightH - 10;
+                    visitorX = -logoSize - 25;
+                    homeX = DRAW_WIDTH;
+                }
+            },FPS(60));
+        }
+
+        function ramsWin(){
+            var height = 0.5 * DRAW_HEIGHT;
+			var width = DRAW_WIDTH;
+            var delay = 0;
+            
+            var ramSupportPX = getMaxFontSize("Next Stop", width);
+            var ramSupportHeight = ramSupportPX/1.5;
+            var ramSupportX = centerX(width);
+            var ramSupportY = -ramSupportHeight - 10;
+            
+            var cwcLogo = getImage("images/logos/SantaAna.jpg");
+            var cwcWidth = 200;
+            var cwcHeight = 100;
+            var cwcX = centerX(cwcWidth);
+            var cwcY = centerYrange(cwcHeight, (0.75 * DRAW_HEIGHT)) + DRAW_HEIGHT/4;
+
+            canvas.style.backgroundImage = "url('images/fireworks.gif')";
+			
+			animation = setInterval(function(){
+				if(ramSupportY < ramSupportHeight + 25){
+                    ctx.font = "italic " + ramSupportPX + "px Arial";
+                    ctx.clearRect(0,0,DRAW_WIDTH, ramSupportY + 30);
+                    ctx.fillText("Next Stop", ramSupportX, ramSupportY);
+                    ramSupportY += 10;
+				}
+				else if(cwcHeight < height){
+                    cwcX = centerX(cwcWidth);
+                    cwcY = centerYrange(cwcHeight, (0.75 * DRAW_HEIGHT)) + DRAW_HEIGHT/3.5;
+                    
+                    ctx.drawImage(cwcLogo, cwcX, cwcY, cwcWidth, cwcHeight);
+                    cwcWidth += 15;
+                    cwcHeight += 5;
+				}
+                else if(delay < 120){
+                    delay++;
+                }
+                else{
+                    ctx.clearRect(0,0,DRAW_WIDTH, DRAW_HEIGHT);
+                    ramSupportY = -ramSupportHeight - 10;
+                    cwcWidth = 200;
+                    cwcHeight = 100;
+                    delay = 0;
+                }
+			},FPS(60));
+		}
+
+		function competeWithClass(){
+            var height = 0.6 * DRAW_HEIGHT;
+			var width = 0.9 * DRAW_WIDTH;
+            
+            var ramSupportPX = getMaxFontSize("Rams Support", width);
+            var ramSupportHeight = ramSupportPX/1.5;
+            var ramSupportX = centerX(width);
+            var ramSupportY = -ramSupportHeight - 10;
+            
+            var cwcLogo = getImage("images/logos/cwc.jpg");
+            var cwcWidth = 200;
+            var cwcHeight = 100;
+            var cwcX = centerX(cwcWidth);
+            var cwcY = centerYrange(cwcHeight, (0.75 * DRAW_HEIGHT)) + DRAW_HEIGHT/4;
+			
+			animation = setInterval(function(){
+				if(ramSupportY < ramSupportHeight + 25){
+                    ctx.font = "italic " + ramSupportPX + "px Arial";
+                    ctx.clearRect(0,0,DRAW_WIDTH, ramSupportY + 30);
+                    ctx.fillText("Rams Support", ramSupportX, ramSupportY);
+                    ramSupportY += 5;
+				}
+				else if(cwcHeight < height){
+                    cwcX = centerX(cwcWidth);
+                    cwcY = centerYrange(cwcHeight, (0.75 * DRAW_HEIGHT)) + DRAW_HEIGHT/4;
+                    
+                    ctx.drawImage(cwcLogo, cwcX, cwcY, cwcWidth, cwcHeight);
+                    cwcWidth += 10;
+                    cwcHeight += 5;
+				}
+                else{
+                    clearInterval(animation);
+                }
+			},FPS(60));
+		}
+        
+        function flag(){
+            var clip = getVideo("videos/flag.mp4");
+            video = setInterval(function () {
+                ctx.drawImage(clip, 0, 0, DRAW_WIDTH, DRAW_HEIGHT);
+            },FPS(30));
+        }
+        
+        function getLoud(){
+            var delay = 0;
+            var grid = 40;
+            var textWidth = 0.9 * DRAW_WIDTH;
+            var textSize = 40;
+            var maxTextSize = getMaxFontSize("Get Loud", textWidth);
+            var width = DRAW_WIDTH/grid;
+            var height = DRAW_HEIGHT/grid;
+            var color = ctx.createLinearGradient(0,0,0,DRAW_HEIGHT);
+            color.addColorStop(0, "red");
+            color.addColorStop(0.5, "yellow");
+            color.addColorStop(1, "green");
+            animation = setInterval(function(){
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                ctx.font = "italic " + textSize + "px Arial";
+                var dynamicWidth = ctx.measureText("Get Loud").width;
+                var dynamicHeight = -textSize/1.5;
+                ctx.fillStyle = color;
+                for(var a = 0; a < grid; a++){
+                    var level = 0;
+                    //Increasing intervals
+                    if(a < 5){
+                        level = getRandomNumber(5,15);
+                    }
+                    else if(a < 10){
+                        level = getRandomNumber(10,20);
+                    }
+                    else if(a <= 15){
+                        level = getRandomNumber(25,35);
+                    }
+                    //Mid range
+                    else if(a > 15 && a < 25){
+                        level = getRandomNumber(30,40);
+                    }
+                    //Decreasing intervals
+                    if(a >= 25){
+                        level = getRandomNumber(25,35);
+                    }
+                    if(a > 30){
+                        level = getRandomNumber(10,20);
+                    }
+                    if(a > 35){
+                        level = getRandomNumber(5,15);
+                    }
+                    ctx.fillRect(a * width, DRAW_HEIGHT - (height * level), width, height * level);
+                }
+                ctx.fillStyle = "blue";
+                if(textSize < maxTextSize){
+                    ctx.fillText("Get Loud", centerX(dynamicWidth), centerY(dynamicHeight));
+                    textSize +=6;
+                }
+                else if(delay < 30){
+                    ctx.fillText("Get Loud", centerX(dynamicWidth), centerY(dynamicHeight));
+                    delay++;
+                }
+                else{
+                    textSize = 20;
+                    delay = 0;
+                }
+                
+            },FPS(15));
+        }
+
+        function defense(){
+            var delay = 0;
+            dImage = getImage("images/d.png");
+            fenceImage = getImage("images/Fence.png");
+            imageWidth = DRAW_WIDTH * 0.4;
+            imageHeight = DRAW_HEIGHT * 0.70;
+            dX = -imageWidth;
+            dY = centerY(imageHeight);
+            fenceX = DRAW_WIDTH;
+            fenceY = centerY(imageHeight);
+            animation = setInterval(function(){
+                ctx.clearRect(0, 0, DRAW_WIDTH, DRAW_HEIGHT);
+                if(dX < 60){
+                    ctx.drawImage(dImage, dX, dY, imageWidth, imageHeight);
+                    dX += 35;
+                }
+                else if(fenceX > (DRAW_WIDTH/2) + 60){
+                    ctx.drawImage(dImage, dX, dY, imageWidth, imageHeight);
+                    ctx.drawImage(fenceImage, fenceX, fenceY, imageWidth, imageHeight);
+                    fenceX -= 35;
+                }
+                else if(delay < 40){
+                    ctx.drawImage(dImage, dX, dY, imageWidth, imageHeight);
+                    ctx.drawImage(fenceImage, fenceX, fenceY, imageWidth, imageHeight);
+                    delay++;
+                }
+                else{
+                    dX = -imageWidth;
+                    fenceX = DRAW_WIDTH;
+                    delay = 0;
+                }
+            },FPS(60));
+        }
+        
+        function pumpUp1() {
+            var clip = getVideo("videos/pump up clips/Michaela Pump Up.mp4");
+            video = setInterval(function () {
+                ctx.drawImage(clip, 0, 0, DRAW_WIDTH, DRAW_HEIGHT);
+            },FPS(30));
+        }
+        
+        function pumpUp2() {
+            var clip = getVideo("videos/pump up clips/Julia Pump Up.mp4");
+            video = setInterval(function () {
+                ctx.drawImage(clip, 0, 0, DRAW_WIDTH, DRAW_HEIGHT);
+            },FPS(30));
+        }
+
+
+        function playerIntro(player) {
+            var fontSize = 20;
+            var i = 0;
+            var x;
+            var y;
+            var width;
+            var height;
+            var delay = 0;
+            var text = [player.position,player.height,player.number];
+            start = setInterval(function () {
+                ctx.font = "italic " + fontSize + "px Arial";
+                width = ctx.measureText(text[i]).width;
+                height = -(fontSize/1.5);
+                x = centerX(width);
+                y = centerY(height);
+                if(width < (0.75 * DRAW_WIDTH) && -height < (0.25 * DRAW_HEIGHT)){
+                    ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                    ctx.fillText(text[i],x,y);
+                    fontSize += 6;
+                }
+                else if(i < 2){
+                    i++;
+                    fontSize = 10;
+                }
+                else{
+                    clearInterval(start);
+                    playVideo(player.profile);
+                    delay = 0;
+                }
+            },FPS(60));
+
+        }
+
+        function playerCard(player) {
+            var fontSize, height;
+            fontSize = 100;
+            height = DRAW_HEIGHT/5;
+            ctx.drawImage(player.pic, 0,0, 0.4 * DRAW_WIDTH, DRAW_HEIGHT);
+            ctx.font = "italic " + fontSize + "px Arial";
+            ctx.fillText((player.number + " " + player.name), 0.42 * DRAW_WIDTH, height);
+            ctx.fillText("Height: " + player.height, 0.42 * DRAW_WIDTH, height * 2);
+            ctx.fillText("Position: " + player.position, 0.42 * DRAW_WIDTH, height * 3);
+            ctx.fillText("Year: " + player.year, 0.42 * DRAW_WIDTH, height * 4);
+        }
+
+
+        //function for when the window is resized to also resize the canvas
+        function resizeCanvas() {
+            //This function also redefines global variables related to the
+            //height and width of the canvas
+            DRAW_WIDTH = window.innerWidth - 4;
+            DRAW_HEIGHT = window.innerHeight - 4;
+            canvas.width = DRAW_WIDTH;
+            canvas.height = DRAW_HEIGHT;
+        }
+        //Adds a canvas to the page and sets up the graphics ctx
+        function buildCanvas() {
+            canvas = document.createElement("canvas");
+            ctx = canvas.getContext("2d");
+            document.body.appendChild(canvas);
+            resizeCanvas();
+        }
+        //Listens for key input
+        function keyListener(event) {
+            var keyCode = event.keyCode;
+            ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+            ctx.fillStyle = "silver";
+            clearInterval(animation);
+            clearInterval(video);
+            switch (keyCode){
+                //Q
+				case 113:
+					competeWithClass();
+					break;
+                //W
+                case 119:
+                    welcome();
+                    break;
+                //E
+                case 101:
+                    getLoud();
+                    break;
+                //R
+                case 114:
+                    defense();
+                    break;
+                //T
+                case 116:
+                    pumpUp1();
+                    break;
+                //Y
+                case 121:
+                    pumpUp2();
+                //Player 1: Laura Gutierrez
+                //These functions perform an animation for the intro
+                case 49:
+                    playerCard(laura);
+                    break;
+                case 50:
+                    playerCard(michaela);
+                    break;
+                case 51:
+                    playerCard(julia);
+                    break;
+                case 52:
+                    playerCard(maddy);
+                    break;
+                case 53:
+                    playerCard(abree);
+                    break;
+                case 54:
+                    playerCard(camryn);
+                    break;
+                case 55:
+                    playerCard(emily);
+                    break;
+                case 56:
+                    playerCard(morgan);
+                    break;
+                case 57:
+                    playerCard(kennedy);
+                    break;
+                case 48:
+                    playerCard(mitchell);
+                    break;
+                case 45:
+                    playerCard(lexi);
+                    break;
+                case 61:
+                    playerCard(kamirah);
+                    break;
+
+                case 33:
+                    playerIntro(laura);
+                    break;
+                case 64:
+                    playerIntro(michaela);
+                    break;
+                case 35:
+                    playerIntro(julia);
+                    break;
+                case 36:
+                    playerIntro(maddy);
+                    break;
+                case 37:
+                    playerIntro(abree);
+                    break;
+                case 94:
+                    playerIntro(camryn);
+                    break;
+                case 38:
+                    playerIntro(emily);
+                    break;
+                case 42:
+                    playerIntro(morgan);
+                    break;
+                case 40:
+                    playerIntro(kennedy);
+                    break;
+                case 41:
+                    playerIntro(mitchell);
+                    break;
+                case 95:
+                    playerIntro(lexi);
+                    break;
+                case 43:
+                    playerIntro(kamirah);
+                    break;
+
+                //These function display player cards for shooting freethrows or making field goals
+                //C
+                case 99:
+                    ctx.clearRect(0,0,DRAW_WIDTH,DRAW_HEIGHT);
+                    break;
+                //L
+                case 108:
+                    animation = setInterval(function(){rotateLogo(0.85 * DRAW_HEIGHT);}, FPS(60));
+                    break;
+                //f
+                case 102:
+                    flag();
+                    break;
+                case 100:
+                    ramsWin();
+                    break;
+            }
+        }
+    </script>
+</head>
+<body onload="buildCanvas()" onresize="resizeCanvas()" onkeypress="keyListener(event)">
+</body>
+</html>

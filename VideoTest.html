@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+        <script>
+            //aircrack ng
+            function createVideo(){
+                var video = document.createElement("video");
+                var source = document.createElement("source");
+                video.height = window.innerHeight;
+                video.width = window.innerWidth;
+                video.autoplay = "true";
+                video.loop = "true";
+                source.src = "videos/flag.mp4";
+                video.appendChild(source);
+                document.body.appendChild(video);
+            }
+            
+            
+        </script>
+    </head>
+    <body onload="createVideo()">
+    </body>
+</html>

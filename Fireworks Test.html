@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <script>
+            var canvas;
+            
+            function addCanvas(width, height){
+                canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                document.appendChild(canvas);
+            }
+            
+            function resizeCanvas(){
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            
+        </script>
+    </he>
+    <body onload ="addCanvas()" onresize="resize()">
+        <button></button>
+    </body>
+</html>

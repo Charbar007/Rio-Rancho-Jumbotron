@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+            }
+        </style>
+        <script>
+            function sin(angle){return Math.sin((angle * Math.PI)/180);}
+            function cos(angle) {return Math.cos((angle * Math.PI)/180);}
+
+            function getRandomNumber(lowerBound, upperBound){return (Math.floor(Math.random() * upperBound) + lowerBound);}
+            
+            function resizeCanvas(){
+                DRAW_HEIGHT = window.innerHeight - 1;
+                DRAW_WIDTH = window.innerWidth - 1;
+                canvas.height = DRAW_HEIGHT;
+                canvas.width = DRAW_WIDTH;
+            }
+
+            function buildCanvas(){
+                canvas = document.createElement("canvas");
+                ctx = canvas.getContext("2d");
+                resizeCanvas();
+                document.body.appendChild(canvas);
+            }
+
+            function fireworks(){
+                var fireworkCount = 10;
+                var minRadius = 100;
+                var maxRadius = 500;
+                var fireworkX = [];
+                var fireworkY = [];
+                var fireworkR = [];
+                var colors = ["red", "orange", "yellow", "light green", "green",
+                "dark green", "light blue", "blue", "dark blue", "purple"]
+                var fireworkColor = [];
+                //Set random values for ignition points
+                for(i = 0; i < fireworkCount; i++){
+                    fireworkX[i] = getRandomNumber(100, DRAW_WIDTH - 100);
+                    fireworkY[i] = getRandomNumber(100, DRAW_HEIGHT - 100);
+                    fireworkR[i] = getRandomNumber(minRadius, maxRadius);
+                    fireworkColor[i] = colors[getRandomNumber(0, colors.length)];
+                }
+                
+                for(i = 0; i <= 360; i += 10){
+                    ctx.fillRect(cos(i), sin(i), 1, 1);
+                }
+            }
+        </script>
+    </head>
+    <body onload="buildCanvas()" onresize="resizeCanvas()">
+    </body>
+</html>
